@@ -1,0 +1,26 @@
+# Основной фреймворк
+Flask==3.0.3
+Flask-SQLAlchemy==3.1.1
+Flask-Migrate==4.0.7
+Flask-Assets==2.1.0
+
+# Работа с БД (psycopg3 - работает на Windows)
+psycopg==3.1.18
+SQLAlchemy==2.0.30
+
+# Интеграция с фронтендом
+bootstrap-flask==2.4.1
+
+# Для работы с переменными окружения
+python-dotenv==1.0.1
+
+# Дополнительно для форм и безопасности
+Flask-WTF==1.1.1
+Werkzeug==3.0.3
+
+# Для сжатия CSS/JS (нужно для Flask-Assets)
+cssmin==0.2.0
+jsmin==3.0.1
+
+# Для Gunicorn (на Render)
+gunicorn==21.2.0
