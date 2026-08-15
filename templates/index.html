@@ -1,36 +1,8 @@
 <!doctype html>
-<html lang="ru">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>OMNISSIA // ENCICLOPEDIA</title>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-</head>
-<body>
-<div class="crt-glow"></div><div class="scanlines"></div>
-<div id="prayer" class="prayer-overlay">
-  <div class="prayer-aquila a1"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div class="prayer-aquila a2"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div>
-  <div class="prayer-box">
-    <div class="ritual-corners"></div><img class="hero-aquila" src="{{ url_for('static', filename='img/aquila.png') }}">
-    <div class="eyebrow">ADEPTUS MECHANICUS // SECUNDUS RITE // MARS</div>
-    <div class="prayer-code">+++ NOOSPHERIC HANDSHAKE REQUIRED +++</div>
-    <h1>ВОЗНЕСИТЕ<br><span>МОЛИТВУ</span></h1>
-    <p>Машинный дух ожидает литанию допуска.<br>Не нарушайте священное безмолвие когитатора.</p>
-    <button id="pray" class="ritual-btn"><span>☩</span> ВОЗНЕСТИ ЛИТАНИЮ ОМНИССИИ <span>☩</span></button>
-    <div class="prayer-progress"><i></i></div><div id="prayer-log" class="micro-log">[ ОЖИДАНИЕ ПРИКАЗА АДЕПТА ]</div>
-    <div class="prayer-footer">+++ MACHINE SPIRIT WATCHES +++</div>
-  </div>
-</div>
+<html lang="ru"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>OMNISSIA // ENCICLOPEDIA</title><link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"><link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Rajdhani:wght@500;600;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"></head><body><div class="crt-glow"></div><div class="scanlines"></div>
+<div id="prayer" class="prayer-overlay"><div class="prayer-aquila a1"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div class="prayer-aquila a2"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div class="prayer-box"><div class="ritual-corners"></div><img class="hero-aquila" src="{{ url_for('static', filename='img/aquila.png') }}"><div class="eyebrow">ADEPTUS MECHANICUS // SECUNDUS RITE // MARS</div><div class="prayer-code">+++ NOOSPHERIC HANDSHAKE REQUIRED +++</div><h1>ВОЗНЕСИТЕ<br><span>МОЛИТВУ</span></h1><p>Машинный дух ожидает литанию допуска.<br>Не нарушайте священное безмолвие когитатора.</p><button id="pray" class="ritual-btn"><span>☩</span> ВОЗНЕСТИ ЛИТАНИЮ ОМНИССИИ <span>☩</span></button><div class="prayer-progress"><i></i></div><div id="prayer-log" class="micro-log">[ ОЖИДАНИЕ ПРИКАЗА АДЕПТА ]</div><div class="prayer-footer">+++ MACHINE SPIRIT WATCHES +++</div></div></div>
 <header class="topbar"><div class="top-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div><strong>OMNISSIA // ENCICLOPEDIA</strong><small>ARCHIVUM MARTIS • COGITATOR NODE 07 • ADEPTUS ACCESS</small></div><div class="top-code">M41 // <span>ONLINE</span></div></header>
-<main class="container-fluid px-3 px-lg-4"><div class="row g-3 shell">
-<aside class="col-12 col-lg-3 panel left-panel"><div class="panel-title"><span>☩</span> КАТАЛОГ // INDEX</div>
-<div class="search-wrap"><span>⌕</span><input id="search" placeholder="Поиск по архивам..."><button id="clear-search">×</button></div>
-<div class="network-search"><div class="tiny">ВНЕШНИЙ СКАН // СЕТЬ</div><form action="/network-search"><input name="q" placeholder="Поиск в сети отдельно..."><button>↗</button></form></div>
-<nav id="catalog">{% for c in categories %}<button class="category" data-slug="{{ c.slug }}"><span>{{ '%02d'|format(loop.index) }}</span><b>{{ c.name }}</b><em>{{ c.description }}</em></button>{% endfor %}</nav>
-<div class="side-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"><span>IN OMNISSIA WE TRUST</span></div></aside>
+<main class="container-fluid px-3 px-lg-4"><div class="row g-3 shell"><aside class="col-12 col-lg-3 panel left-panel"><div class="panel-title"><span>☩</span> КАТАЛОГ // INDEX</div><div class="search-wrap"><span>⌕</span><input id="search" placeholder="Поиск по архивам..."><button id="clear-search">×</button></div><nav id="catalog">{% for c in categories %}<button class="category" data-slug="{{ c.slug }}"><span>{{ '%02d'|format(loop.index) }}</span><b>{{ c.name }}</b><em>{{ c.description }}</em></button>{% endfor %}</nav><div class="side-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"><span>IN OMNISSIA WE TRUST</span></div></aside>
 <section class="col-12 col-lg-6 panel main-panel"><div class="panel-title" id="main-title"><span>◉</span> ЦЕНТРАЛЬНЫЙ КОГИТАТОР</div><div id="content" class="content"><div class="welcome"><div class="welcome-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div class="eyebrow">NOOSPHERIC DATABASE // READY</div><h2>СЛАВА МАШИННОМУ ДУХУ</h2><p>Выберите каталог слева. Архив не раскрывается в меню — каждый сектор выводит данные непосредственно в центральный терминал.</p><div class="divider">// СЛУЖЕНИЕ • ЗНАНИЕ • ВЕРНОСТЬ //</div></div></div></section>
-<aside class="col-12 col-lg-3 panel right-panel"><div class="panel-title"><span>☩</span> МАШИННЫЙ ДУХ // STATUS</div><div class="machine-core"><div class="core-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div class="core-ring r1"></div><div class="core-ring r2"></div><div class="core-dot">◉</div></div><div class="telemetry"><div><span>ЛОКАЛЬНОЕ ВРЕМЯ</span><strong id="clock">--:--:--</strong></div><div><span>ДАТА</span><strong id="date">--.--.----</strong></div><div><span>ГОД ИМПЕРИУМА</span><strong id="imperial">999.M41</strong></div><div><span>НАГРУЗКА ДУХА</span><strong><i id="loadbar"></i><label id="load">--%</label></strong></div><div><span>ТЕМП. КОГИТАТОРА</span><strong id="temp">-- °C</strong></div></div><div id="terminal" class="terminal"><div>+++ NOOSPHERE LINK ESTABLISHED +++</div><div>&gt; machine spirit: <b>AWAKE</b></div><div>&gt; activity monitoring: <b>ACTIVE</b></div></div><div class="side-aquila right-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"><span>THE OMNISSIAH PROTECTS</span></div></aside>
-</div></main>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script><script src="https://cdn.jsdelivr.net/npm/animejs@3.2.2/lib/anime.min.js"></script><script src="{{ url_for('static', filename='js/main.js') }}"></script>
-</body></html>
+<aside class="col-12 col-lg-3 panel right-panel"><div class="panel-title"><span>☩</span> МАШИННЫЙ ДУХ // STATUS</div><div class="machine-core"><div class="core-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"></div><div class="core-ring r1"></div><div class="core-ring r2"></div><div class="core-dot">◉</div></div><div class="telemetry"><div><span>ЛОКАЛЬНОЕ ВРЕМЯ</span><strong id="clock">--:--:--</strong></div><div><span>ДАТА</span><strong id="date">--.--.----</strong></div><div><span>ГОД ИМПЕРИУМА</span><strong id="imperial">999.M41</strong></div><div><span>НАГРУЗКА ДУХА</span><strong><i id="loadbar"></i><label id="load">--%</label></strong></div><div><span>ТЕМП. КОГИТАТОРА</span><strong id="temp">-- °C</strong></div></div><div id="terminal" class="terminal"><div>+++ NOOSPHERE LINK ESTABLISHED +++</div><div>&gt; machine spirit: <b>AWAKE</b></div><div>&gt; activity monitoring: <b>ACTIVE</b></div></div><div class="side-aquila right-aquila"><img src="{{ url_for('static', filename='img/aquila.png') }}"><span>THE OMNISSIAH PROTECTS</span></div></aside></div></main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script src="{{ url_for('static', filename='js/main.js') }}"></script></body></html>
