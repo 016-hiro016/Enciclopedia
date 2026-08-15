@@ -1,9 +1,8 @@
 import os
 from datetime import datetime, timezone
-from urllib.parse import quote_plus
 from functools import wraps
 from dotenv import load_dotenv
-from flask import Flask, jsonify, redirect, render_template, request, session, url_for
+from flask import Flask, jsonify, redirect, render_template, render_template_string, request, session, url_for
 from flask_migrate import Migrate
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import or_
@@ -46,18 +45,20 @@ def create_app():
   @wraps(f)
   def w(*a,**kw): return f(*a,**kw) if session.get("admin") else redirect(url_for("admin_login",next=request.path))
   return w
+ ADMIN_CSS="body{background:#010201;color:#b9d8c1;font:14px monospace;margin:0;padding:30px}.admin{max-width:1100px;margin:auto}.admin h1{color:#39ff72;letter-spacing:4px}.admin a,.admin button{color:#caffd4}.admin .box{border:1px solid #28643a;background:#061009;padding:20px;margin:15px 0}.admin input,.admin textarea,.admin select{display:block;width:100%;box-sizing:border-box;background:#020603;border:1px solid #174a29;color:#caffd4;padding:10px;margin:7px 0 14px}.admin textarea{min-height:180px}.admin button{background:#07150b;border:1px solid #39ff72;padding:11px 18px}.entry-row{border:1px solid #164529;padding:12px;margin:10px 0}.danger{border-color:#a33!important;color:#ff8888!important}.admin-aquila{width:90px;filter:invert(1) grayscale(1) brightness(1.7);mix-blend-mode:screen}"
  @app.route("/admin/login",methods=["GET","POST"])
  def admin_login():
   if request.method=="POST":
-   if request.form.get("password")==os.getenv("ADMIN_PASSWORD","change-me"):
-    session["admin"]=True; return redirect(request.args.get("next") or url_for("admin_dashboard"))
-   return render_template("admin_login.html",error="Доступ отклонён. Машинный дух не признал ключ.")
-  return render_template("admin_login.html",error=None)
+   if request.form.get("password")==os.getenv("ADMIN_PASSWORD","change-me"): session["admin"]=True; return redirect(request.args.get("next") or url_for("admin_dashboard"))
+   return render_template_string('<style>{{css}}</style><main class="admin box"><img class="admin-aquila" src="/static/img/aquila.png"><p>+++ MAGOS ACCESS +++</p><h1>ДОСТУП К АРХИВУ</h1><p>{{error}}</p><form method="post"><input name="password" type="password" autofocus placeholder="СЕКРЕТНЫЙ КЛЮЧ"><button>☩ ВОЙТИ В КОГИТАТОР ☩</button></form></main>',css=ADMIN_CSS,error="Машинный дух отклонил ключ.")
+  return render_template_string('<style>{{css}}</style><main class="admin box"><img class="admin-aquila" src="/static/img/aquila.png"><p>+++ ADEPTUS MECHANICUS // MAGOS ACCESS +++</p><h1>ДОСТУП К АРХИВУ</h1><form method="post"><input name="password" type="password" autofocus placeholder="СЕКРЕТНЫЙ КЛЮЧ"><button>☩ ВОЙТИ В КОГИТАТОР ☩</button></form><p><a href="/">← терминал</a></p></main>',css=ADMIN_CSS)
  @app.get("/admin/logout")
  def admin_logout(): session.pop("admin",None); return redirect(url_for("index"))
  @app.get("/admin")
  @admin_required
- def admin_dashboard(): return render_template("admin.html",categories=Category.query.order_by(Category.id).all(),entries=Entry.query.order_by(Entry.id.desc()).all())
+ def admin_dashboard():
+  cats=Category.query.order_by(Category.id).all(); entries=Entry.query.order_by(Entry.id.desc()).all()
+  return render_template_string('<style>{{css}}</style><main class="admin"><p>+++ MAGOS ADMIN // ARCHIVUM +++</p><h1>УПРАВЛЕНИЕ ЭНЦИКЛОПЕДИЕЙ</h1><p><a href="/">ТЕРМИНАЛ</a> · <a href="/admin/logout">ВЫЙТИ</a></p><div class="box"><h2>НОВАЯ ЗАПИСЬ</h2><form method="post" action="/admin/entry/save"><label>Название</label><input name="title" required><label>Slug</label><input name="slug"><label>Категория</label><select name="category_id">{% for c in cats %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}</select><label>Подкатегория</label><input name="subcategory"><label>Краткое описание</label><textarea name="description"></textarea><label>Текст статьи</label><textarea name="body"></textarea><label>Теги через запятую</label><input name="tags"><button>☩ ЗАПИСАТЬ В АРХИВ ☩</button></form></div><div class="box"><h2>ЗАПИСИ АРХИВА</h2>{% for x in entries %}<div class="entry-row"><b>{{x.title}}</b><br><small>{{x.category.name}} // {{x.subcategory}}</small><form method="post" action="/admin/entry/delete/{{x.id}}" style="display:inline"><button class="danger">УДАЛИТЬ</button></form></div>{% else %}<p>АРХИВ ПУСТ.</p>{% endfor %}</div></main>',css=ADMIN_CSS,cats=cats,entries=entries)
  @app.post("/admin/entry/save")
  @admin_required
  def admin_save():
